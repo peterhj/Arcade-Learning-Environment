@@ -37,39 +37,34 @@ int ALEInterface_getMinimalActionSize(ALEInterface *ale) {return ale->getMinimal
 int ALEInterface_getFrameNumber(ALEInterface *ale) {return ale->getFrameNumber();}
 int ALEInterface_lives(ALEInterface *ale) {return ale->lives();}
 int ALEInterface_getEpisodeFrameNumber(ALEInterface *ale) {return ale->getEpisodeFrameNumber();}
-void ALEInterface_getScreen(ALEInterface *ale, unsigned char *screen_data) {
-  int w = ale->getScreen().width();
-  int h = ale->getScreen().height();
-  pixel_t *ale_screen_data = (pixel_t *)ale->getScreen().getArray();
-  memcpy(screen_data, ale_screen_data, w*h*sizeof(pixel_t));
-}
 void ALEInterface_getRAM(ALEInterface *ale, unsigned char *ram) {
   unsigned char *ale_ram = ale->getRAM().array();
-  int size = ale->getRAM().size();
-  memcpy(ram, ale_ram, size*sizeof(unsigned char));
+  size_t size = ale->getRAM().size();
+  memcpy(ram, ale_ram, sizeof(unsigned char)*size);
 }
 int ALEInterface_getRAMSize(ALEInterface *ale) {return ale->getRAM().size();}
-int ALEInterface_getScreenWidth(ALEInterface *ale) {return ale->getScreen().width();}
-int ALEInterface_getScreenHeight(ALEInterface *ale) {return ale->getScreen().height();}
-
-void ALEInterface_getScreenRGB(ALEInterface *ale, unsigned char *output_buffer) {
+void ALEInterface_getScreen(ALEInterface *ale, unsigned char *screen_data) {
   size_t w = ale->getScreen().width();
   size_t h = ale->getScreen().height();
-  size_t screen_size = w*h;
-  pixel_t *ale_screen_data = ale->getScreen().getArray();
-
-  ale->theOSystem->colourPalette().applyPaletteRGB(output_buffer, ale_screen_data, screen_size );
+  pixel_t *ale_screen_data = (pixel_t *)ale->getScreen().getArray();
+  memcpy(screen_data, ale_screen_data, sizeof(pixel_t)*w*h);
 }
-
+int ALEInterface_getScreenWidth(ALEInterface *ale) {return ale->getScreen().width();}
+int ALEInterface_getScreenHeight(ALEInterface *ale) {return ale->getScreen().height();}
 void ALEInterface_getScreenGrayscale(ALEInterface *ale, unsigned char *output_buffer) {
   size_t w = ale->getScreen().width();
   size_t h = ale->getScreen().height();
   size_t screen_size = w*h;
   pixel_t *ale_screen_data = ale->getScreen().getArray();
-
   ale->theOSystem->colourPalette().applyPaletteGrayscale(output_buffer, ale_screen_data, screen_size);
 }
-
+void ALEInterface_getScreenRGB(ALEInterface *ale, unsigned char *output_buffer) {
+  size_t w = ale->getScreen().width();
+  size_t h = ale->getScreen().height();
+  size_t screen_size = w*h;
+  pixel_t *ale_screen_data = ale->getScreen().getArray();
+  ale->theOSystem->colourPalette().applyPaletteRGB(output_buffer, ale_screen_data, screen_size * 3);
+}
 void ALEInterface_saveState(ALEInterface *ale) {ale->saveState();}
 void ALEInterface_loadState(ALEInterface *ale) {ale->loadState();}
 ALEState* ALEInterface_cloneState(ALEInterface *ale) {return new ALEState(ale->cloneState());}
@@ -86,6 +81,8 @@ void ALEState_encodeState(ALEState *state, char *buf, int buf_len);
 int ALEState_encodeStateLen(ALEState *state);
 ALEState *ALEState_decodeState(const char *serialized, int len);
 
+// 0: Info, 1: Warning, 2: Error
+void ALE_setLoggerMode(int mode) { ale::Logger::setMode(ale::Logger::mode(mode)); }
 }
 
 #endif
