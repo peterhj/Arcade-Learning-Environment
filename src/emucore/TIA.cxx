@@ -20,6 +20,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <atomic>
+#include <mutex>
 
 #include "Console.hxx"
 #include "Control.hxx"
@@ -95,17 +97,27 @@ TIA::TIA(const Console& console, Settings& settings)
     }
   }
 
-  for(i = 0; i < 640; ++i)
-    ourDisabledMaskTable[i] = 0;
+  // FIXME(20161024): initialization of `TIA` statics needs to be under a lock,
+  // and skip it entirely if they are already initialized (use an atomic bool).
+  if (!ourInitialized.load(memory_order_seq_cst)) {
+    lock_guard<mutex> guard(ourInitMutex);
 
-  // Compute all of the mask tables
-  computeBallMaskTable();
-  computeCollisionTable();
-  computeMissleMaskTable();
-  computePlayerMaskTable();
-  computePlayerPositionResetWhenTable();
-  computePlayerReflectTable();
-  computePlayfieldMaskTable();
+    for(i = 0; i < 640; ++i) {
+      ourDisabledMaskTable[i] = 0;
+    }
+
+    // Compute all of the mask tables
+    computeBallMaskTable();
+    computeCollisionTable();
+    computeMissleMaskTable();
+    computePlayerMaskTable();
+    computePlayerPositionResetWhenTable();
+    computePlayerReflectTable();
+    computePlayfieldMaskTable();
+
+    atomic_thread_fence(memory_order_seq_cst);
+    ourInitialized.store(true, memory_order_seq_cst);
+  }
 
   // Init stats counters
   myFrameCounter = 0;
@@ -2908,6 +2920,9 @@ void TIA::poke(uInt16 addr, uInt8 value)
     }
   }
 }
+
+atomic<bool> TIA::ourInitialized = ATOMIC_VAR_INIT(false);
+mutex TIA::ourInitMutex;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 uInt8 TIA::ourBallMaskTable[4][4][320];

@@ -30,6 +30,9 @@ class Settings;
 #include "m6502/src/Device.hxx"
 #include "MediaSrc.hxx"
 
+#include <atomic>
+#include <mutex>
+
 /**
   This class is a device that emulates the Television Interface Adapator 
   found in the Atari 2600 and 7800 consoles.  The Television Interface 
@@ -510,6 +513,9 @@ class TIA : public Device , public MediaSource
      bool myFrameGreyed;
 
   private:
+    static std::atomic<bool> ourInitialized;
+    static std::mutex ourInitMutex;
+
     // Ball mask table (entries are true or false)
     static uInt8 ourBallMaskTable[4][4][320];
 
