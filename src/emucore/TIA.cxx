@@ -99,24 +99,25 @@ TIA::TIA(const Console& console, Settings& settings)
 
   // FIXME(20161024): initialization of `TIA` statics needs to be under a lock,
   // and skip it entirely if they are already initialized (use an atomic bool).
-  if (!ourInitialized.load(memory_order_seq_cst)) {
+  {
     lock_guard<mutex> guard(ourInitMutex);
-
-    for(i = 0; i < 640; ++i) {
-      ourDisabledMaskTable[i] = 0;
-    }
-
-    // Compute all of the mask tables
-    computeBallMaskTable();
-    computeCollisionTable();
-    computeMissleMaskTable();
-    computePlayerMaskTable();
-    computePlayerPositionResetWhenTable();
-    computePlayerReflectTable();
-    computePlayfieldMaskTable();
-
     atomic_thread_fence(memory_order_seq_cst);
-    ourInitialized.store(true, memory_order_seq_cst);
+    if (!ourInitialized.load(memory_order_seq_cst)) {
+      for(i = 0; i < 640; ++i) {
+        ourDisabledMaskTable[i] = 0;
+      }
+
+      // Compute all of the mask tables
+      computeBallMaskTable();
+      computeCollisionTable();
+      computeMissleMaskTable();
+      computePlayerMaskTable();
+      computePlayerPositionResetWhenTable();
+      computePlayerReflectTable();
+      computePlayfieldMaskTable();
+
+      ourInitialized.store(true, memory_order_seq_cst);
+    }
   }
 
   // Init stats counters

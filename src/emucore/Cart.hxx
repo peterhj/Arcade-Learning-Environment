@@ -65,7 +65,7 @@ class Cartridge : public Device
     /**
       Query some information about this cartridge.
     */
-    static const std::string& about() { return myAboutString; }
+    const std::string& about() { return myAboutString; }
 
     /**
       Save the internal (patched) ROM image.
@@ -194,7 +194,7 @@ class Cartridge : public Device
 
   private:
     // Contains info about this cartridge in string format
-    static std::string myAboutString;
+    std::string myAboutString;
 
     // Copy constructor isn't supported by cartridges so make it private
     Cartridge(const Cartridge&);
