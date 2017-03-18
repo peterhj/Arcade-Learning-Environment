@@ -511,19 +511,19 @@ class TIA : public Device , public MediaSource
 
   private:
     // Ball mask table (entries are true or false)
-    static uInt8 ourBallMaskTable[4][4][320];
+    uInt8 ourBallMaskTable[4][4][320];
 
     // Used to set the collision register to the correct value
-    static uInt16 ourCollisionTable[64];
+    uInt16 ourCollisionTable[64];
 
     // A mask table which can be used when an object is disabled
-    static uInt8 ourDisabledMaskTable[640];
+    uInt8 ourDisabledMaskTable[640];
 
     // Indicates the update delay associated with poking at a TIA address
     static const Int16 ourPokeDelayTable[64];
 
     // Missle mask table (entries are true or false)
-    static uInt8 ourMissleMaskTable[4][8][4][320];
+    uInt8 ourMissleMaskTable[4][8][4][320];
 
     // Used to convert value written in a motion register into 
     // its internal representation
@@ -533,16 +533,16 @@ class TIA : public Device , public MediaSource
     static const bool ourHMOVEBlankEnableCycles[76];
 
     // Player mask table
-    static uInt8 ourPlayerMaskTable[4][2][8][320];
+    uInt8 ourPlayerMaskTable[4][2][8][320];
 
     // Indicates if player is being reset during delay, display or other times
-    static Int8 ourPlayerPositionResetWhenTable[8][160][160];
+    Int8 ourPlayerPositionResetWhenTable[8][160][160];
 
     // Used to reflect a players graphics
-    static uInt8 ourPlayerReflectTable[256];
+    uInt8 ourPlayerReflectTable[256];
 
     // Playfield mask table for reflected and non-reflected playfields
-    static uInt32 ourPlayfieldTable[2][160];
+    uInt32 ourPlayfieldTable[2][160];
 
   private:
     // Copy constructor isn't supported by this class so make it private

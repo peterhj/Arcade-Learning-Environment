@@ -86,7 +86,7 @@ Cartridge* Cartridge::create(const uInt8* image, uInt32 size,
     type = detected;
   }
   buf << endl;
-  myAboutString = buf.str();
+  std::string aboutString = buf.str();
 
   // We should know the cart's type by now so let's create it
   if(type == "2K")
@@ -137,6 +137,10 @@ Cartridge* Cartridge::create(const uInt8* image, uInt32 size,
     cartridge = new Cartridge0840(image);
   else
     ale::Logger::Error << "ERROR: Invalid cartridge type " << type << " ..." << endl;
+
+  if (NULL != cartridge) {
+    cartridge->myAboutString = aboutString;
+  }
 
   return cartridge;
 }
@@ -469,4 +473,4 @@ Cartridge& Cartridge::operator = (const Cartridge&)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-string Cartridge::myAboutString;
+//string Cartridge::myAboutString;

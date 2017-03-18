@@ -2910,13 +2910,13 @@ void TIA::poke(uInt16 addr, uInt8 value)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt8 TIA::ourBallMaskTable[4][4][320];
+//uInt8 TIA::ourBallMaskTable[4][4][320];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt16 TIA::ourCollisionTable[64];
+//uInt16 TIA::ourCollisionTable[64];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt8 TIA::ourDisabledMaskTable[640];
+//uInt8 TIA::ourDisabledMaskTable[640];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 const Int16 TIA::ourPokeDelayTable[64] = {
@@ -2927,7 +2927,7 @@ const Int16 TIA::ourPokeDelayTable[64] = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt8 TIA::ourMissleMaskTable[4][8][4][320];
+//uInt8 TIA::ourMissleMaskTable[4][8][4][320];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 const bool TIA::ourHMOVEBlankEnableCycles[76] = {
@@ -3022,16 +3022,16 @@ const Int32 TIA::ourCompleteMotionTable[76][16] = {
 };
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt8 TIA::ourPlayerMaskTable[4][2][8][320];
+//uInt8 TIA::ourPlayerMaskTable[4][2][8][320];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Int8 TIA::ourPlayerPositionResetWhenTable[8][160][160];
+//Int8 TIA::ourPlayerPositionResetWhenTable[8][160][160];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt8 TIA::ourPlayerReflectTable[256];
+//uInt8 TIA::ourPlayerReflectTable[256];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-uInt32 TIA::ourPlayfieldTable[2][160];
+//uInt32 TIA::ourPlayfieldTable[2][160];
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 TIA::TIA(const TIA& c)
