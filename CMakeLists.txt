@@ -146,6 +146,11 @@ if(UNIX)
 		DESTINATION ${LIB_INSTALL_DIR})
 endif()
 
+add_library(ale-c-lib-static STATIC ${CMAKE_CURRENT_SOURCE_DIR}/ale_ffi/ale_c_wrapper.cpp ${SOURCE_DIR}/ale_interface.cpp ${SOURCES})
+set_target_properties(ale-c-lib-static PROPERTIES OUTPUT_NAME ale_ffi_static)
+set_target_properties(ale-c-lib-static PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(ale-c-lib-static PROPERTIES COMPILE_FLAGS "-fPIC")
+
 target_link_libraries(ale-lib ${LINK_LIBS})
 target_link_libraries(ale-bin ${LINK_LIBS})
 target_link_libraries(ale-c-lib ${LINK_LIBS})
