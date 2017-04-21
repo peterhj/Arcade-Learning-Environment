@@ -80,6 +80,7 @@ public:
   // when necessary - this method will keep pressing buttons on the
   // game over screen.
   reward_t act(Action action);
+  void act2(Action actionA, Action actionB, reward_t *rewardA, reward_t *rewardB);
 
   // Indicates if the game has ended.
   bool game_over() const;
@@ -90,16 +91,19 @@ public:
   // Returns the vector of legal actions. This should be called only
   // after the rom is loaded.
   ActionVect getLegalActionSet();
+  ActionVect getLegalActionSetB();
 
   // Returns the vector of the minimal set of actions needed to play
   // the game.
   ActionVect getMinimalActionSet();
+  ActionVect getMinimalActionSetB();
 
   // Returns the frame number since the loading of the ROM
   int getFrameNumber();
 
   // The remaining number of lives.
   const int lives();
+  const int livesB();
 
   // Returns the frame number since the start of the current episode
   int getEpisodeFrameNumber() const;

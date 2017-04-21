@@ -34,7 +34,7 @@ class ALEController {
     friend class ALEInterface;
 
     /** Applies the given action to the environment (e.g. by emulating or resetting) */
-    reward_t applyActions(Action a, Action b); 
+    void applyActions(Action player_a, Action player_b, reward_t *player_a_reward, reward_t *player_b_reward); 
     /** Support for SDL display... available to all controllers. Simply call it from run(). */
     void display();
 

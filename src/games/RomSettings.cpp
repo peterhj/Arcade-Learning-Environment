@@ -17,9 +17,9 @@
  */
 #include "RomSettings.hpp"
 
-bool RomSettings::isLegal(const Action& a) const {
+/*bool RomSettings::isLegal(const Action& a) const {
   return true;
-}
+}*/
 
 ActionVect RomSettings::getMinimalActionSet() {
   ActionVect actions;
@@ -31,10 +31,30 @@ ActionVect RomSettings::getMinimalActionSet() {
   return actions;
 }
 
+ActionVect RomSettings::getMinimalActionSetB() {
+  ActionVect actions;
+  for (int a = PLAYER_B_NOOP; a < PLAYER_B_MAX_ACTION; a++) {
+    if (isMinimalB((Action)a) && isLegalB((Action)a)) {
+      actions.push_back((Action)a);
+    }
+  }
+  return actions;
+}
+
 ActionVect RomSettings::getAllActions() {
   ActionVect actions;
   for (int a = 0; a < PLAYER_B_NOOP; a++) {
     if (isLegal((Action)a)) {
+      actions.push_back((Action)a);
+    }
+  }
+  return actions;
+}
+
+ActionVect RomSettings::getAllActionsB() {
+  ActionVect actions;
+  for (int a = PLAYER_B_NOOP; a < PLAYER_B_MAX_ACTION; a++) {
+    if (isLegalB((Action)a)) {
       actions.push_back((Action)a);
     }
   }

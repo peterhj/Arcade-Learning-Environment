@@ -43,14 +43,15 @@ void ALEController::display() {
     display->display_screen();
     while (display->manual_control_engaged()) {
       Action user_action = display->getUserAction();
-      applyActions(user_action, PLAYER_B_NOOP);
+      applyActions(user_action, PLAYER_B_NOOP, NULL, NULL);
       display->display_screen();
     }
   }
 }
 
-reward_t ALEController::applyActions(Action player_a, Action player_b) {
-  reward_t sum_rewards = 0;
+void ALEController::applyActions(Action player_a, Action player_b, reward_t *player_a_reward, reward_t *player_b_reward) {
+  reward_t sum_rewards_a = 0;
+  reward_t sum_rewards_b = 0;
   // Perform different operations based on the first player's action 
   switch (player_a) {
     case LOAD_STATE: // Load system state
@@ -66,9 +67,14 @@ reward_t ALEController::applyActions(Action player_a, Action player_b) {
       break;
     default:
       // Pass action to emulator!
-      sum_rewards = m_environment.act(player_a, player_b);
+      m_environment.act(player_a, player_b, &sum_rewards_a, &sum_rewards_b);
       break;
   }
-  return sum_rewards;
+  if (NULL != player_a_reward) {
+    *player_a_reward = sum_rewards_a;
+  }
+  if (NULL != player_b_reward) {
+    *player_b_reward = sum_rewards_b;
+  }
 }
 
