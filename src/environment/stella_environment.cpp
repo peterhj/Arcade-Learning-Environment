@@ -169,9 +169,10 @@ void StellaEnvironment::act(Action player_a_action, Action player_b_action, rewa
     }
 
     // Use the stored actions, which may or may not have changed this frame
-    oneStepAct(m_player_a_action, m_player_b_action);
-    sum_rewards_a += m_settings->getReward();
-    sum_rewards_b += m_settings->getRewardB();
+    if (!oneStepAct(m_player_a_action, m_player_b_action)) {
+      sum_rewards_a += m_settings->getReward();
+      sum_rewards_b += m_settings->getRewardB();
+    }
   }
 
   if (NULL != player_a_reward) {
@@ -184,12 +185,12 @@ void StellaEnvironment::act(Action player_a_action, Action player_b_action, rewa
 
 /** Applies the given actions (e.g. updating paddle positions when the paddle is used)
   *  and performs one simulation step in Stella. */
-void StellaEnvironment::oneStepAct(Action player_a_action, Action player_b_action) {
+bool StellaEnvironment::oneStepAct(Action player_a_action, Action player_b_action) {
   // Once in a terminal state, refuse to go any further (special actions must be handled
   //  outside of this environment; in particular reset() should be called rather than passing
   //  RESET or SYSTEM_RESET.
   if (isTerminal()) {
-    return;
+    return true;
   }
 
   // Convert illegal actions into NOOPs; actions such as reset are always legal
@@ -199,6 +200,8 @@ void StellaEnvironment::oneStepAct(Action player_a_action, Action player_b_actio
   emulate(player_a_action, player_b_action);
   // Increment the number of frames seen so far
   m_state.incrementFrame();
+
+  return false;
 }
 
 bool StellaEnvironment::isTerminal() const {

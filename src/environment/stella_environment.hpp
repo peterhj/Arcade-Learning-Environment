@@ -80,7 +80,7 @@ class StellaEnvironment {
 
   private:
     /** This applies an action exactly one time step. Helper function to act(). */
-    void oneStepAct(Action player_a_action, Action player_b_action);
+    bool oneStepAct(Action player_a_action, Action player_b_action);
 
     /** Actually emulates the emulator for a given number of steps. */
     void emulate(Action player_a_action, Action player_b_action, size_t num_steps = 1);
